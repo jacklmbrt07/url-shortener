@@ -13,7 +13,7 @@ app.use(cors());
 
 app.use("/public", express.static(`${process.cwd()}/public`));
 
-app.get("/", function (req, res) {
+app.get("/", function(req, res) {
   res.sendFile(process.cwd() + "/views/index.html");
 });
 
@@ -32,7 +32,7 @@ const urlSchema = new mongoose.Schema({
 const Url = mongoose.model("Url", urlSchema);
 
 // Your first API endpoint
-app.get("/api/hello", function (req, res) {
+app.get("/api/hello", function(req, res) {
   res.json({ greeting: "hello API" });
 });
 
@@ -45,11 +45,11 @@ app.post(
     let inputShort = 1;
     let inputUrl = req.body.url;
     let urlRegex = new RegExp(
-      /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+      /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/
     );
 
     if (!inputUrl.match(urlRegex)) {
-      return res.json({ error: "Invalid URL" });
+      return res.json({ error: "invalid url" });
     }
 
     responseObject.original_url = inputUrl;
@@ -89,6 +89,6 @@ app.get("/api/shorturl/:inputShort", (req, res) => {
 });
 
 // Listener
-app.listen(port, function () {
+app.listen(port, function() {
   console.log(`Listening on port ${port}`);
 });
